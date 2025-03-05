@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TodoItem from "./TodoItem";
 import Todo from "./Todo";
-
+//honguyentailoi
 export default function TodoList() {
 	const [job, setJob] = useState("");
 	const [jobs, setJobs] = useState<Todo[]>([]);
