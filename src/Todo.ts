@@ -1,10 +1,10 @@
+import { v4 as uuidv4 } from "uuid";
 export default class Todo {
 	id: string;
 	title: string = "";
 	finished: boolean = false;
-	constructor(title: string, finished: boolean = false, id: string) {
+	constructor(title: string) {
 		this.title = title;
-		this.finished = finished;
-		this.id = id;
+		this.id = uuidv4();
 	}
 }

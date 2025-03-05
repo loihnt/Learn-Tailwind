@@ -1,15 +1,13 @@
 import { useState } from "react";
 import TodoItem from "./TodoItem";
 import Todo from "./Todo";
-import { v4 as uuidv4 } from "uuid";
 //honguyentailoi
 export default function TodoList() {
 	const [job, setJob] = useState("");
 	const [jobs, setJobs] = useState<Todo[]>([]);
 
 	const handleSubmit = function () {
-		const id = uuidv4();
-		const j = new Todo(job, false, id);
+		const j = new Todo(job);
 		setJobs((prev) => [...prev, j]);
 		setJob("");
 	};
