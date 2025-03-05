@@ -1,8 +1,8 @@
 import Todo from "./Todo";
 type TodoItemProps = {
 	todo: Todo;
-	handleRemove: (id: number) => void;
-	hanndleDone: (id: number) => void;
+	handleRemove: (id: string) => void;
+	hanndleDone: (id: string) => void;
 };
 export default function TodoItem({
 	todo,
@@ -18,7 +18,7 @@ export default function TodoItem({
 				checked={todo.finished}
 				onChange={handleChange}
 				type="checkbox"
-				className={`mt-1 flex-0 size-5 checked:bg-blue-500 mr-2 text-blue-800 `}
+				className="mt-1 flex-0 size-5 checked:bg-blue-500 mr-2 text-blue-800 "
 			></input>
 			<p
 				className={`flex-1 ${

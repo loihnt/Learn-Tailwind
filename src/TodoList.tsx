@@ -1,22 +1,24 @@
 import { useState } from "react";
 import TodoItem from "./TodoItem";
 import Todo from "./Todo";
+import { v4 as uuidv4 } from "uuid";
 //honguyentailoi
 export default function TodoList() {
 	const [job, setJob] = useState("");
 	const [jobs, setJobs] = useState<Todo[]>([]);
 
 	const handleSubmit = function () {
-		const j = new Todo(job, false, jobs.length);
+		const id = uuidv4();
+		const j = new Todo(job, false, id);
 		setJobs((prev) => [...prev, j]);
 		setJob("");
 	};
 
-	const handleRemove = function (id: number) {
+	const handleRemove = function (id: string) {
 		setJobs(jobs.filter((job) => job.id !== id));
 	};
 
-	const handleDone = function (i: number) {
+	const handleDone = function (i: string) {
 		setJobs(
 			jobs.map((j) => {
 				if (j.id === i) {
