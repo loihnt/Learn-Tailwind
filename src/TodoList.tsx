@@ -7,30 +7,36 @@ export default function TodoList() {
 	const [jobs, setJobs] = useState<Todo[]>([]);
 
 	const handleSubmit = function () {
-		const j = new Todo(job);
-		console.log(job);
+		const j = new Todo(job, false, jobs.length);
 		setJobs((prev) => [...prev, j]);
 		setJob("");
 	};
 
-	const handleRemove = function (index: number) {
-		const newJobs = jobs.filter((_value, i) => i !== index);
-		setJobs(newJobs);
+	const handleRemove = function (id: number) {
+		setJobs(jobs.filter((job) => job.id !== id));
 	};
 
-	const handleDone = function (index: number) {
-		jobs[index].finished = !jobs[index].finished;
-		setJobs(jobs);
+	const handleDone = function (i: number) {
+		setJobs(
+			jobs.map((j) => {
+				if (j.id === i) {
+					return { ...j, finished: !j.finished };
+				} else {
+					return j;
+				}
+			})
+		);
 	};
+
 	return (
-		<>
-			<div className="text-center text-4xl my-2 mx-20 font-bold text-gray-400">
+		<div className="">
+			<div className="text-center text-6xl my-2 mx-20 font-bold text-gray-400 py-5">
 				<h1>TODO LIST</h1>
 			</div>
 
 			<div className="flex mx-20 ">
 				<input
-					className="rounded-[0.5vw] flex-1/6 mr-1 pl-2"
+					className="border-2 border-gray-300 rounded-[0.5vw] flex-1/6 mr-1 pl-2"
 					value={job}
 					onChange={(e) => setJob(e.target.value)}
 				></input>
@@ -41,41 +47,16 @@ export default function TodoList() {
 					Add Task
 				</button>
 			</div>
-			<div className="flex p-5 bg-gray-200 mx-20 mt-2 rounded-[1vw]">
-				<ul className="flex-auto  -my-3">
-					{jobs.map((job, index) => (
-						<li className="bg-white my-3 p-3" key={index}>
-							<div className="flex justify-between">
-								<div className="flex-0 ">
-									<input
-										onChange={() => handleDone(index)}
-										type="checkbox"
-										className=" size-5 checked:bg-blue-500 mr-2 text-blue-800"
-									></input>
-								</div>
-								<div
-									className={`flex-2 ${
-										job.finished
-											? "line-through"
-											: "font-bold"
-									}
-										`}
-								>
-									{job.title}
-								</div>
-								<div className="flex-none">
-									<button
-										onClick={() => handleRemove(index)}
-										className=" cursor-pointer bg-gray-300 hover:bg-gray-400 rounded-[0.5vw]"
-									>
-										Remove
-									</button>
-								</div>
-							</div>
-						</li>
-					))}
-				</ul>
+			<div className="flex flex-col px-5 pb-5 pt-3 bg-gray-200 mx-20 mt-2 rounded-[1vw]">
+				{jobs.map((j, index) => (
+					<TodoItem
+						key={index}
+						todo={j}
+						handleRemove={handleRemove}
+						hanndleDone={handleDone}
+					></TodoItem>
+				))}
 			</div>
-		</>
+		</div>
 	);
 }
