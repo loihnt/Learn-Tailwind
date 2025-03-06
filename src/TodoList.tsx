@@ -1,21 +1,37 @@
 import { useState } from "react";
 import TodoItem from "./TodoItem";
 import Todo from "./Todo";
+
 //honguyentailoi
 export default function TodoList() {
 	const [job, setJob] = useState("");
-	const [jobs, setJobs] = useState<Todo[]>([]);
+	const [jobs, setJobs] = useState<Todo[]>(() => {
+		const storageJobs = JSON.parse(localStorage.getItem("jobs") as string);
+		return storageJobs ?? [];
+	});
+	const [isOpen, toggle] = useState<boolean>(false);
 
+	//commit todo
 	const handleSubmit = function () {
 		const j = new Todo(job);
-		setJobs((prev) => [...prev, j]);
+		setJobs((prev) => {
+			const newJobs = [...prev, j];
+
+			localStorage.setItem("jobs", JSON.stringify(newJobs));
+
+			return newJobs;
+		});
 		setJob("");
 	};
-
+	//remove todo
 	const handleRemove = function (id: string) {
-		setJobs(jobs.filter((job) => job.id !== id));
-	};
+		// console.log(id);
+		const newJobs = jobs.filter((job) => job.id !== id);
+		setJobs(newJobs);
 
+		localStorage.setItem("jobs", JSON.stringify(newJobs));
+	};
+	//complete todo
 	const handleDone = function (i: string) {
 		setJobs(
 			jobs.map((j) => {
@@ -27,7 +43,9 @@ export default function TodoList() {
 			})
 		);
 	};
-
+	const openModal = () => {
+		toggle(!isOpen);
+	};
 	return (
 		<div className="">
 			<div className="text-center text-6xl my-2 mx-20 font-bold text-gray-400 py-5">
@@ -54,6 +72,8 @@ export default function TodoList() {
 						todo={j}
 						handleRemove={handleRemove}
 						hanndleDone={handleDone}
+						handleEdit={openModal}
+						open={isOpen}
 					></TodoItem>
 				))}
 			</div>

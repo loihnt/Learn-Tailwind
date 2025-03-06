@@ -1,19 +1,27 @@
 import Todo from "./Todo";
+import Modal from "./Modal";
+
 type TodoItemProps = {
 	todo: Todo;
 	handleRemove: (id: string) => void;
 	hanndleDone: (id: string) => void;
+	handleEdit: () => void;
+	open: boolean;
 };
+
 export default function TodoItem({
 	todo,
 	handleRemove,
 	hanndleDone,
+	handleEdit,
+	open,
 }: TodoItemProps) {
 	function handleChange() {
 		return hanndleDone(todo.id);
 	}
+
 	return (
-		<div className="rounded-[1vw] p-3 mt-3 flex flex-row bg-amber-50 justify-between">
+		<div className=" rounded-[1vw] p-3 mt-3 flex flex-row bg-amber-50 justify-between">
 			<input
 				checked={todo.finished}
 				onChange={handleChange}
@@ -33,6 +41,14 @@ export default function TodoItem({
 			>
 				Remove
 			</button>
+			{/* tai sao  */}
+			<button
+				onClick={handleEdit}
+				className="ml-2 p-1 flex-0 cursor-pointer bg-gray-300 hover:bg-gray-400 rounded-[0.5vw]"
+			>
+				Edit {todo.id}
+			</button>
+			<Modal toggle={handleEdit} t={todo.id} isOpen={open}></Modal>
 		</div>
 	);
 }
