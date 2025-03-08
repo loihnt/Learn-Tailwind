@@ -13,6 +13,7 @@ export default function TodoItem({
 	hanndleDone,
 	handleEdit,
 }: TodoItemProps) {
+	if (todo === null) return;
 	function handleChange() {
 		return hanndleDone(todo.id);
 	}
