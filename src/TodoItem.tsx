@@ -1,12 +1,10 @@
 import Todo from "./Todo";
-import Modal from "./Modal";
 
 type TodoItemProps = {
 	todo: Todo;
 	handleRemove: (id: string) => void;
 	hanndleDone: (id: string) => void;
-	handleEdit: () => void;
-	open: boolean;
+	handleEdit: (id: string) => void;
 };
 
 export default function TodoItem({
@@ -14,7 +12,6 @@ export default function TodoItem({
 	handleRemove,
 	hanndleDone,
 	handleEdit,
-	open,
 }: TodoItemProps) {
 	function handleChange() {
 		return hanndleDone(todo.id);
@@ -43,12 +40,11 @@ export default function TodoItem({
 			</button>
 			{/* tai sao  */}
 			<button
-				onClick={handleEdit}
+				onClick={() => handleEdit(todo.id)}
 				className="ml-2 p-1 flex-0 cursor-pointer bg-gray-300 hover:bg-gray-400 rounded-[0.5vw]"
 			>
 				Edit {todo.id}
 			</button>
-			<Modal toggle={handleEdit} t={todo.id} isOpen={open}></Modal>
 		</div>
 	);
 }
